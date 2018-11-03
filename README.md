@@ -3,7 +3,7 @@ Detection of ORB features from online webcam imges.
 
 # ORB descripció:
 
-ORB és una eina composta del FAST i el BRIEF. El FAST detecta els punts que es situen en les cantonades, i el BRIEF dirigeix aquests punts claus definint una matriu de rotació que serà la que ens permetrà orientar-los correctament.
+ORB és una eina de detecció de punts clau composta del FAST i el BRIEF. El FAST detecta els punts que es situen en les cantonades, i el BRIEF dirigeix aquests punts claus definint una matriu de rotació que serà la que ens permetrà orientar-los correctament.
 
 # Fonts: 
 

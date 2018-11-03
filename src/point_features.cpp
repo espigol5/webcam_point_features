@@ -8,6 +8,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <vector>
+#include <cstddef>
+#include <valarray>
 
 //consts
 const unsigned int MIN_NUM_FEATURES = 300; //minimum number of point fetaures
@@ -61,13 +63,40 @@ int main(int argc, char *argv[])
 
         //clear previous points
         point_set.clear();
+	
+	int n_cols = image.cols;
+	int n_rows = image.rows;
+	int h_divisions = 4;
+	int v_divisions = 3;
+
+	int h_ws = n_cols/h_divisions; 
+	int v_ws = n_rows/v_divisions;
+
+	cv::Mat mask(cv::Size(n_cols, n_rows), CV_64FC1); 
+	mask=0;
+
 
         //detect and compute(extract) features
         orb_detector->detectAndCompute(image, cv::noArray(), point_set, descriptor_set);
 
-        //draw points on the image
-        cv::drawKeypoints( image, point_set, image, 255, cv::DrawMatchesFlags::DEFAULT );
+	for (int ii=0; h_divisions; ii++) {
+		for (int jj=0; v_divisions; jj++) {
+			for (int k=0; k<h_ws; k++) {
+				for (int l=0; l<v_ws; l++) {
+					int Px= ii*h_ws+k;
+					int Py= jj*v_ws+l;
+					image.at<cv::Vec3b>(k,l) [0] = 255; // es canvia el valor dels pixels (255, 255, 0)
+					image.at<cv::Vec3b>(k,l) [1] = 255;
+					image.at<cv::Vec3b>(k,l) [2] = 0;
+				}
+			}
+		}
+	}
 
+
+        //draw points on the image
+        cv::drawKeypoints( image, point_set, mask, 255, cv::DrawMatchesFlags::DEFAULT ); // s'especifica que la matriu mask serà la que es superposi
+ 
     //********************************************************************
 
         //show image
